@@ -6,10 +6,266 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        .heading {
+            color: white;
+            text-transform: uppercase;
+            background-color: #ccc;
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
+    <!-- 3 -->
+    <div class="cont">
+        <p>Первый параграф</p>
+        <p>Второй параграф</p>
+        <p>Тритий параграф</p>
+    </div>
 
+
+
+    <!-- 2 -->
+    <!-- ul.menu>li.menu_list*4>a.menu_link{link-$}---линк с нумерацией -->
+    <ul class="menu">
+        <li class="menu_list"><a href="" class="menu_link">link-1</a></li>
+        <li class="menu_list"><a href="" class="menu_link">link-2</a></li>
+        <li class="menu_list"><a href="" class="menu_link">link-3</a></li>
+        <li class="menu_list"><a href="" class="menu_link">link-4</a></li>
+    </ul>
+
+    <!-- 1  -->
+    <div class="content">
+
+    </div>
+
+
+    <script>
+        // .........................        Рассмотрим разницу между динамическими и статическими коллекциями:
+
+        const allParagraphElements = divElement.querySelectorAll('p')
+        console.log('Static NodeList длина до: %d', allParagraphElements.length)
+        console.log('Dynamic NodeList длина до: %d', divElement.childNodes.length)
+        console.log('HTMLCollection длина до: %d', divElement.children.length)
+        const fourthParagraphElement = document.createElement('p')
+        fourthParagraphElement.textContent = 'Четвертый параграф'
+        divElement.appendChild(fourthParagraphElement)
+        console.log('Static NodeList длина после: %d', allParagraphElements.length)
+        console.log('Dynamic NodeList длина после: %d', divElement.childNodes.length)
+        console.log('HTMLCollection длина после: %d', divElement.children.length)
+
+
+
+
+
+        // ....................Методы для навигации по дереву DOM
+        document.body.parentNode // Элемент <html>
+        document.body.parentElement // Элемент <html>
+        document.documentElement.parentNode // Нода document
+        document.documentElement.parentElement // null
+            (document.documentElement.parentNode === document) // true
+            (document.documentElement.parentElement === document) // false
+
+
+
+        // .............Работа с коллекциями
+        // Создадим HTML-файл со следующим содержимым и откроем его в браузере:
+
+        const divElement = document.querySelector('.cont')
+        // console.log(divElement.childNodes) // 7
+        // console.log(divElement.children) // 3
+
+        //         Посмотрим, какие элементы содержатся в каждой коллекции. Чтобы перебрать элементы,
+        // сначала преобразуем коллекции в массивы с помощью статического метода Array.from или
+        // оператора spread.
+
+
+        Array.from(divElement.childNodes).forEach((childNode) => {
+            console.log('childNode "%s" типа "%d"', childNode.nodeName, childNode.nodeType)
+        })
+        console.log(divElement.children);
+        [...divElement.children].forEach((element) => {
+            console.log(element);
+        })
+
+
+        [...divElement.children].forEach((child) => {
+            console.log('child "%s" типа "%d"', child.nodeName, child.nodeType);
+        })
+
+
+
+
+
+
+
+
+        //  <!-- ищем из списка максимум часов -->
+        const studentsGroup1PracticeTime = [
+            {
+                firstName: "Ivanov",
+                practiceTime: 56
+            },
+            {
+                firstName: "Petrov",
+                practiceTime: 120
+            },
+            {
+                firstName: "Sidorov",
+                practiceTime: 148
+            },
+            {
+                firstName: "Belkin",
+                practiceTime: 20
+            },
+            {
+                firstName: "Avdeev",
+                practiceTime: 160
+            }
+        ];
+        const studentsGroup2PracticeTime = [
+            {
+                firstName: "Mankov",
+                practiceTime: 87
+            },
+            {
+                firstName: "Kistin",
+                practiceTime: 133
+            },
+            {
+                firstName: "Kotlyarov",
+                practiceTime: 140
+            },
+            {
+                firstName: "Peskov",
+                practiceTime: 10
+            },
+        ];
+
+        // ........................пишем код нахождения max часов для каждой группы и двух вместе
+        // Напишем не очень удобную, но показательную функцию, которая умеет принимать
+        // неограниченное число аргументов и находить максимум среди них.Функция должна
+        // вызываться подобным образом: const maximum = findMax(4, 7, 10);
+        function findMax() {
+            const values = arguments; // arguments — переменная, которая доступна внутри каждой
+            // функции и содержит в себе все аргументы, переданные в функцию.Является  псевдомассивом.
+            let maxValue = -Infinity;
+            // Поскольку arguments является псевдомассивом, мы не можем применять к нему новые методы массивов, такие как forEach или reduce, а будем итерировать по старинке.
+            for (let index = 0; index < values.length; index++) {
+                if (values[index] > maxValue) maxValue = values[index];
+            }
+            return maxValue;
+        };
+        // Мы должны передавать в функции только числа, а в наших массивах содержатся
+        // объекты, поэтому сначала создадим массивы только со значениями времени, отработанного
+        // студентами.
+        const group1PracticeTime = studentsGroup1PracticeTime.map((student) =>
+            student.practiceTime);
+        const group2PracticeTime = studentsGroup2PracticeTime.map((student) =>
+            student.practiceTime);
+        // Теперь можем вызывать функцию поиска максимального значения. Она принимает
+        // множество числовых аргументов, а у нас есть только массив — тут нам и поможет оператор
+        // spread.
+        const maxTimeFromGroup1 = findMax(...group1PracticeTime); // ...group1PracticeTime вытянет из массива все элементы и передаст их в функцию как отдельные переменные.
+        // Это аналогично страшной и неудобной записи:
+        // findMax(group1PracticeTime[0], group1PracticeTime[1], group1PracticeTime[2],
+        // group1PracticeTime[3], group1PracticeTime[4])
+        console.log(maxTimeFromGroup1); // 160
+        const maxTimeFromGroup2 = findMax(...group2PracticeTime);
+        console.log(maxTimeFromGroup2); // 140
+
+
+        // Давайте также найдём максимально отработанное время среди двух групп. Мы можем сделать это, передав данные обоих массивов в функцию таким образом:
+        // findMax(...group1PracticeTime, ...group2PracticeTime);
+        // А можем объединить два массива в один — это очень частая операция, и оператор
+        // расширения (spread) очень в этом помогает.
+        const bothGroupsTime = [...group1PracticeTime, ...group2PracticeTime];
+        // Для объединения двух массивов нам нужно вытащить их элементы в один общий
+        // массив, поэтому мы объявляем новый массив, а в качестве его элементов делаем
+        // расширение элементов первого и второго массива. Также мы могли бы добавить в него и
+        // другие элементы.
+        const maxTimeBothGroups = findMax(...bothGroupsTime);
+        console.log(maxTimeBothGroups); // 160
+
+        const saveFullNameInDB = (firstName, lastName, ...additionals) => {
+            saveFirstName(firstName);
+            saveLastName(lastName);
+            saveAdditionals(additionals); // Благодаря rest оператору мы смогли собрать все
+            // дополнительные данные, которые были переданы для сохранения в базе данных, и можем
+            // перед
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // ..........редактируем список
+        const liEl = document.querySelectorAll('.menu_list');//если нужен nodeList
+        const liElOne = document.querySelector('.menu_list');
+        const linkEl = document.querySelector('.menu_link');//ищем сылку
+        const menuEl = document.querySelector('.menu');
+
+        // console.log(liEl);
+        // console.log(liElOne.parentNode.children);//если нужна HtmlCollection
+        // console.log(linkEl.childNodes);
+        // console.log(menuEl.childNodes);
+        // console.log(menuEl.children);
+
+        menuEl.childNodes.forEach(element => {
+            console.log(element);
+        });
+
+
+        // .........добавляем стиль и h1 и картинку
+        const content = document.querySelector('.content');
+
+        const h1El = document.createElement('h1');
+        h1El.textContent = 'H1 Element';
+        // h1El.style.backgroundColor = '#ccc';
+        // h1El.style.textAlign = 'center';
+        h1El.setAttribute('class', 'heading');
+
+        const imgEl = document.createElement('img');
+        imgEl.src = 'photo.img';
+        imgEl.setAttribute('alt', 'крутое фото');//добавляем атрибут с 2 значениями
+
+        content.appendChild(h1El);
+        content.appendChild(imgEl);
+
+
+        //..... Есть несколько способов управления стилями при использовании JavaScript
+        // 1
+        // const divElement = document.createElement('div');
+        // const paragraphElement = document.createElement('p');
+        // paragraphElement.textContent = 'Text Document';
+        // divElement.appendChild(paragraphElement);
+        // paragraphElement.style.color = 'white';
+        // paragraphElement.style.backgroundColor = 'black';
+        // paragraphElement.style.padding = '10px';
+        // paragraphElement.style.width = '250px';
+        // paragraphElement.style.textAlign = 'center';
+
+
+        // ..........2   or
+        // <p style="color: white; background-color: black; padding: 10px; width: 250px; text-align: center;">...</p>
+
+    </script>
 </body>
 
 </html>
