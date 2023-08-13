@@ -9,7 +9,289 @@
 </head>
 
 <body>
+    <!--1 задача--- кнопка купить два варианта + в js вариант -->
+    <!-- <button onclick="console.log('hellow click html')" class="button">Купить</button>
+    <div onclick="console.log('hellow click html')" class="div-button">Купить2</div> -->
 
+
+    <!-- <button class="button">Купить1</button>
+    <button class="button">Купить2</button>
+    <button class="button">Купить3</button> -->
+
+
+    <!-- Делегирование событий -->
+    <ul class="menu">
+        <li>Первый</li>
+        <li>Второй</li>
+        <li>Третий</li>
+    </ul>
+    <script>
+        const menuEl = document.querySelector('.menu');
+
+
+        const nameFunction = (e) => {//функция нажатия инфа
+            console.log(e.target, e.currentTarget);
+        }
+        menuEl.addEventListener('click', nameFunction);
+
+    </script>
+    <!-- .............................Делегирование событий -->
+    <h1>Lorem ipsum, </h1>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function (e) {
+            console.log('loaded');
+        })
+
+        window.addEventListener('load', function (e) {
+            console.log('все загрузилось');
+        })
+    </script>
+
+
+
+    <!-- ..............mouseover считает количество наведения -->
+    <div class="button">Купить</div>
+    <script>
+        const buttonEl = document.querySelector('.button');
+
+        buttonEl.addEventListener('mouseover', function (e) {
+            console.log('Не нужно наводить ты лучше нажми');
+        });
+
+        buttonEl.addEventListener('mouseleave', function (e) {
+            console.log('Не нужно убегать');
+        });
+
+        //.............. кнопка
+        window.addEventListener('keydown', function (e) {//Событие keydown фиксирует момент нажатия клавиши ещё до того, как эта клавиша будет отпущена. на клавиатуре  console.log(e);
+            // console.log(e);
+            console.log(e.key);//ловит что пишем в консоль и с этим мы можем работать
+        });
+    </script>
+
+
+
+    <!-- // ..............сылка -->
+    <a href="https://yandex.by" class="link">Yandex</a>
+    <script>
+        const link = document.querySelector('.link');
+
+        link.addEventListener('click', function (e) {
+            e.preventDefault();//preventDefault -- останавливаем переход
+            console.log('hello link');
+        });
+    </script>
+
+
+    <!--................... копирование элемента текста-->
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem ex blanditiis ea itaque voluptas pariatur, quod
+        maiores laboriosam illum sed deserunt omnis ad deleniti sit earum excepturi cum obcaecati fugit!</p>
+    <script>
+        document.addEventListener('copy', function (e) {
+            const copyText = document.getSelection().toString();//getSelection().------выбранный элемент,   toString()---строки
+            console.log(copyText);//выводит что копируем в консоль
+        });
+    </script>
+
+
+    <!-- изменение размера окна--- resize-->
+    <script>
+        window.addEventListener('resize', (e) => {
+            console.log('resize');// количество изменений размера окна
+        });
+    </script>
+
+
+
+    <!-- input----вод данных -->
+    <input type="text">
+
+    <script>
+        // const inputEl = document.querySelector('input');
+        // inputEl.addEventListener('input', (event) => {
+        //     console.log(event.target.value);//event-- события, target---значенияб .valuе -- внутри поля ввода
+        // });
+        // .........or
+
+        const inputEl = document.querySelector('input');
+
+        inputEl.addEventListener('input', (event) => {
+            if (Number(event.target.value) === 123) { //Числа---event-- события, target---значенияб .valuе -- внутри поля ввода
+                console.log('Молодец');
+            } else {
+                console.log('Пока не угадал');
+            }
+        });
+    </script>
+
+
+
+    <!-- вВод данных -->
+    <form action="">
+        <input type="text" class="input">
+        <div class="error"></div>
+        <button type="submit">GO</button> </button>
+        <!-- submit-- подтрерждение -->
+    </form>
+
+    <script>
+        const inputText = document.querySelector('input');
+        const formRun = document.querySelector('form');
+        const errorEl = document.querySelector('.error');
+
+        formRun.addEventListener('submit', (event) => { //если поле пустое то
+            if (inputText.value === '') {
+                event.preventDefault();
+                errorEl.textContent = 'Поле не должно быть пустым'
+            }
+        });
+
+    </script>
+
+
+    <!-- События в DOM
+События — это сигналы от браузера или другой среды исполнения JavaScript. Эти сигналы
+используются в DOM, чтобы уведомить JavaScript-код, что интересующие его действия
+произошли. События возникают в результате действий пользователя (заполнение и отправка
+формы, нажатие на кнопку, движение мыши, изменение размера окна) или потому, что
+изменилось:
+● состояние страницы (окончилась её загрузка, произошла ошибка);
+● что-то в базовой среде (низкий заряд батареи, мультимедийные события из
+операционной системы);
+● ещё что-то.
+Список возможных событий в DOM очень длинен. Вот лишь некоторые примеры:
+● click — нажатие кнопки мыши
+● touch — касание
+● load — загрузка
+● drag — перетаскивание
+● change — изменение
+● input — ввод
+● error — ошибка
+● resize — изменение размера
+● contextmenu — открытие меню
+● submit — отправка формы -->
+
+    <!-- Представленный код выводит в консоль сообщение в момент построения DOM-дерева и во
+время окончания полной загрузки страницы. Он также выводит тип события и позицию курсора
+мыши для некоторых пользовательских событий типа MouseEvent. Далее мы подробно
+разберём используемые в примере методы. Поскольку событие mousemove срабатывает
+слишком часто, мы написали дополнительный код, чтобы сократить число вызовов
+обработчика, используя паттерн throttling
+        
+        <button onclick="counter++;console.log(counter)">Increment counter</button>
+<script>
+let counter = 5
+window.onload = () => {
+console.log('Страница со всеми ресурсами загружена полностью.')
+}
+document.addEventListener('DOMContentLoaded', () => {
+console.log('Построение DOM-дерева завершено.')
+})
+const mouseEventListener = (event) => {
+console.log(event.type, event.clientX, event.clientY)
+}
+document.addEventListener('click', mouseEventListener)
+document.addEventListener('dblclick', {handleEvent: mouseEventListener})
+document.addEventListener('contextmenu', mouseEventListener, true)
+document.addEventListener('mouseenter', mouseEventListener, true)
+document.addEventListener('mouseleave', mouseEventListener, true)
+const throttle = (func, wait = 0) => {
+let ticking = false
+return (...args) => {
+if (!ticking) {
+window.setTimeout(() => {
+func(...args)
+ticking = false
+}, wait)
+ticking = true
+}
+}
+}
+document.addEventListener('mousemove', throttle(mouseEventListener, 300),
+true)
+</script>
+ -->
+    <script>
+        //.......... решение
+        // const buttonEl = document.querySelector('.button');
+        // buttonEl.onclick = function () {//функция при нажатии
+        //     console.log('Click js button');
+        // }
+        // let count = 0;//счетчик
+        // buttonEl.onclick = function () {
+        //     count++;
+        //     console.log(`кликов по кнопке${count} `);
+        // }
+
+        //......или сократим все в 1 функцию
+        // const buttonEl = document.querySelector('.button');
+        // let count = 0;//счетчик
+        // buttonEl.onclick = function () {//функция при нажатии
+        //     console.log('Click js button');
+        //     count++;
+        //     console.log(`кликов по кнопке${count} `);
+        // }
+        // buttonEl.addEventListener('click', function (e) {//функция считает пользователей по клику-- (e)--event--событие по клику
+        //     console.log('click add');
+        // });
+        // buttonEl.addEventListener('click', function (e) {//функция считает пользователей по клику-- (e)--event--событие по клику
+        //     console.log('click add two');
+        // });
+
+        // ........or
+        // const buttonEl = document.querySelector('.button');
+        // let count = 0;//счетчик
+
+        // const click = function () {//функция при нажатии
+        //     console.log('Click js button');
+        //     count++;
+        //     console.log(`кликов по кнопке${count} `);
+        // }
+        // buttonEl.addEventListener('click', click);//функция внутри функции при нажатии
+        // addEventListener — это способ зарегистрировать обработчик события, описанный в документации W3C DOM
+
+
+
+        // юю.....................Считаем сколько раз нажали функцией
+        // const list = document.querySelector('ul')
+        // const listener = (e) => {
+        //     console.log(e.target, e.currentTarget)
+        // }
+        // list.addEventListener('click', listener)
+        // ['fourth', 'fifth'].forEach((text) => {
+        //     const listItem = document.createElement('li')
+        //     listItem.append(text)
+        //     list.append(listItem)
+        // })
+
+
+        // target - это свойство объекта события (event), которое указывает на элемент, на котором произошло событие. В JavaScript, это может быть любой элемент на веб-странице, например, кнопка, ссылка, форма и т. д.
+        // const buttonEls = document.querySelectorAll('.button');
+
+        // buttonEls.forEach(element => {//функция выводит что купили
+        //     element.addEventListener('click', function (event) {//(e)==(event)-список событий console.log(event.target);
+        //         const target = event.target;
+        //         console.log(target);
+        //     });
+        // });
+
+
+
+        // .....................Делегирование событий
+        // const list = document.querySelector('ul');
+        // const listener = (e) => {
+        //     console.log(e.target, e.currentTarget);
+        // }
+        // list.addEventListener('click', listener);
+        // ['fourth', 'fifth'].forEach((text) => {
+        //     const listItem = document.createElement('li');
+        //     listItem.append(text);
+        //     list.append(listItem);
+        // })
+
+
+    </script>
 </body>
 
 </html>
